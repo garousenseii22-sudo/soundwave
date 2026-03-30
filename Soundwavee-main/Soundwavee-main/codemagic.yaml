@@ -1,13 +1,17 @@
 workflows:
-  capacitor-android:
+  build_android:
     name: Build Android APK
     environment:
-      node: 18
+      vars:
+        NODE_VERSION: "18"
     scripts:
-      - npm install
-      - npm run build
-      - npx cap sync android
-      - cd android
-      - ./gradlew assembleDebug
+      - name: Install dependencies
+        script: npm install
+      - name: Build PWA
+        script: npm run build
+      - name: Capacitor sync
+        script: npx cap sync android
+      - name: Build APK
+        script: cd android && ./gradlew assembleRelease
     artifacts:
       - android/app/build/outputs/**/*.apk
